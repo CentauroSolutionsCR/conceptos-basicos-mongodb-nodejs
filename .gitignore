@@ -1,0 +1,20 @@
+# Node Modules
+node_modules/*/*
+package-lock.json
+
+# Output WebPack
+/dist/*/*
+/build/*/*
+build
+src/dist/*
+dist
+
+# Env
+.env
+src/client/app/Utils/Config.ts
+src/views/index.pug
+
+# VSCode
+/.vscode/*/*
+npm-debug.log
+.vs/slnx.sqlite
