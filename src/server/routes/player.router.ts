@@ -1,19 +1,17 @@
-import express, { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import { collections } from "../services/database.service";
-import Player from "../models/player";
+import express from "express";
+import PlayersCtrl from "../controller/players.controller";
 import cors from "cors";
-export const playersRouter = express.Router();
 
-playersRouter.use(express.json());
-playersRouter.use(cors())
-playersRouter.get("/", async (_req: Request, res: Response) => {
-    try {
-        // Call find with an empty filter object, meaning it returns all documents in the collection. Saves as Player array to take advantage of types
-        const players = (await collections.players.find({}).toArray()) as Player[];
-        res.status(200).send(players);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-});
+export const router = express.Router();
 
+router.use(express.json());       // to support JSON-encoded bodies
+router.use(express.urlencoded({extended:true})); // to support URL-encoded bodies
+ router.use(cors())
+
+router.route("/").get(PlayersCtrl.getPlayers);
+router.route("/player/data").get(PlayersCtrl.getPlayersData);
+router.route("/nationalities").get(PlayersCtrl.getPlayersByNationality);
+router.route("/age/:age").get(PlayersCtrl.getPlayersByAge);
+router.route("/older/:age").get(PlayersCtrl.countOlderPlayersByAge);
+router.route("/player").post(PlayersCtrl.insertPlayer)
+export default router;
